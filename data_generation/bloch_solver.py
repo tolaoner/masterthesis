@@ -3,10 +3,11 @@ from scipy.integrate import solve_ivp
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+from pulse_generator import generate_pulse
 
-def solve_bloch(t_span, p, init_cond):
-    '''solve bloch equations
-        given the time span and paramters (gamma, bx, by, bz, t1, t2, m_0'''
+def solve_bloch(t_span, p, M_ic):
+    """solve bloch equations
+        given the time span and paramters (gamma, bx, by, bz, t1, t2, m_0)"""
     def diffeq_model(M, t, p):
         m_x, m_y, m_z = M
         dM = [gamma * (m_y * b_z(t) - m_z * b_y(t)) - m_x / t2, gamma * (m_z * b_x(t) - m_x * b_z(t)) - m_y / t2,
@@ -14,25 +15,17 @@ def solve_bloch(t_span, p, init_cond):
         return dM
     # solve the diffeq
     M = odeint(diffeq_model, M_ic, t_span, args=(p,))
-    # plot magnetisation vs time
-    plt.plot(t_span, M[:, 0], 'b-', linewidth=2, label='M_x')
-    plt.plot(t_span, M[:, 1], 'r-', linewidth=2, label='M_y')
-    plt.plot(t_span, M[:, 2], 'g-', linewidth=2, label='M_z')
-    plt.xlabel('time')
-    plt.ylabel('m_x, m_y, m_z')
-    plt.legend()
-    plt.show()
+    return M
 
 # define parameters
-t_span = np.linspace(0, 0.016, 160)
-t_span1 = np.linspace(0, 10, 20000)
+'''t_span1 = np.linspace(0, 0.016, 160)
+t_span2 = np.linspace(0, 10, 20000)'''
 gamma = 1  # gyromagnetic ratio
-b_x = lambda a: 110 * math.sin(60 * math.pi * a)
-b_y = lambda a: 0 * math.sin(2 * math.pi * a)
+b_x, b_y = generate_pulse()
 b_z = lambda a: 10+0*math.sin(200*math.pi*a)
 t1 = 1.6  # longitudinal relaxation
 t2 = 0.5  # transverse relaxation
 m_0 = 1
 M_ic = [0, 0, 1]  # initial conditions
 p = [gamma, b_x, b_y, b_z, t1, t2, m_0] #parameter list
-solve_bloch(t_span, p, M_ic)
+#solve_bloch(t_span, p, M_ic)
