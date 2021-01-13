@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-t_span = np.linspace(0, 10, 1000)
+#t_span = np.linspace(0, 10, 1000)
 def generate_pulse():
+    """generate random pulse in the form of sinusoids and cosinusoids"""
     f1 = -3
     f2 = 1
     f3 = 2
