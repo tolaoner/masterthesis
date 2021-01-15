@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pulse_generator import generate_pulse
 
-def solve_bloch(t_span, M_ic):
+def solve_bloch(t_span, M_ic, b_x, b_y, b_z):
     """solve bloch equations
         given the time span and paramters (gamma, bx, by, bz, t1, t2, m_0)"""
     # define parameters
     gamma = 1  # gyromagnetic ratio
-    b_x, b_y = generate_pulse()
-    b_z = lambda a: 10 + 0 * math.sin(200 * math.pi * a)
+    #b_x, b_y = generate_pulse()
+    #b_z = lambda a: 10 + 0 * math.sin(200 * math.pi * a)
     t1 = 1.6  # longitudinal relaxation
     t2 = 0.5  # transverse relaxation
     m_0 = 1
@@ -25,7 +25,4 @@ def solve_bloch(t_span, M_ic):
     # solve the diffeq
     M = odeint(diffeq_model, M_ic, t_span, args=(p,))
     return M
-'''t_span1 = np.linspace(0, 0.016, 160)
-t_span2 = np.linspace(0, 10, 20000)'''
-
 #solve_bloch(t_span, p, M_ic)
