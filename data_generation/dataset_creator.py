@@ -1,12 +1,11 @@
 from bloch_solver import solve_bloch
 from pulse_generator import generate_pulse
 import numpy as np
-import math
+import time
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.integrate import odeint
-'''t_span1 = np.linspace(0, 0.016, 160)
-t_span2 = np.linspace(0, 10, 20000)'''
+#start_time = time.time()  # record start time
 voxel_count = 2
 M_ic = [0, 0, 1]  # initial conditions
 features = ['M_ic', 'T', 'Mx_f', 'My_f', 'Mz_f', 'B_z']
@@ -14,7 +13,7 @@ list_data = []
 m_x = []
 m_y = []
 m_z = []
-for i in range(10):
+for i in range(1):
     for i in range(voxel_count):
         b_z = np.random.randint(-20, 21, size=(2))
         t = np.random.randint(1, 16) / 100
@@ -31,12 +30,12 @@ for i in range(10):
     m_y=[]
     m_z=[]
 frame_data = pd.DataFrame(list_data, columns=features)
-#pd.set_option('display.max_columns',None)
-#print(frame_data.iloc[1]['Mx_f'])
 with open('generated_data.csv', 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
-returned_data = pd.read_csv('generated_data.csv')
-print(returned_data.to_string())
+
+#returned_data = pd.read_csv('generated_data.csv') # read data from csv
+#print(returned_data.to_string()) # show data
+#print('Elapsed time = ', time.time()-start_time) # show elapsed time
 # plot magnetisation vs time
 '''plt.plot(t_span1, M[:, 0], 'b-', linewidth=2, label='M_x')
 plt.plot(t_span1, M[:, 1], 'r-', linewidth=2, label='M_y')
