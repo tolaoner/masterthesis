@@ -7,7 +7,7 @@ from pulse_generator import generate_pulse
 
 def solve_bloch(t_span, M_ic, b_x, b_y, b_z):
     """solve bloch equations
-        given the time span and paramters (gamma, bx, by, bz, t1, t2, m_0)"""
+        given the time span and paramters (bx, by, bz, t_span, M_ic)"""
     # define parameters
     gamma = 1  # gyromagnetic ratio
     #b_x, b_y = generate_pulse()
