@@ -13,24 +13,24 @@ list_data = []
 m_x = []
 m_y = []
 m_z = []
-for i in range(200):
-    b_z = np.random.randint(-20, 21, size=(2))
+for i in range(400):
+    b_z = np.random.randint(-20, 21, size=(1))
     t = np.random.randint(1, 16) / 1000
     t_span = np.linspace(0, t, 150)
     b_x, b_y, coef_list = generate_pulse() # coeff list is the coefficients of excitation pulse (a1, a2, b1, b2, f1, f2)
-    for i in range(voxel_count):
+    for i in range(1):
         M = solve_bloch(t_span, M_ic, b_x, b_y, b_z[i])
         m_x.append(M[-1, 0])
         m_y.append(M[-1, 1])
         m_z.append(M[-1, 2])
     #print(m_x, '\n', m_y, '\n', m_z)
-    row_data=[t, m_x, m_y, m_z, b_z, coef_list]
+    row_data=[t, m_x[0], m_y[0], m_z[0], b_z[0], coef_list[0]]
     list_data.append(row_data)
     m_x=[]
     m_y=[]
     m_z=[]
 frame_data = pd.DataFrame(list_data, columns=features)
-with open('generated_data.csv', 'a') as f:
+with open('generated_data2.csv', 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
 
 #returned_data = pd.read_csv('generated_data.csv') # read data from csv
