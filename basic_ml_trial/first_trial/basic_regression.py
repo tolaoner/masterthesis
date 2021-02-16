@@ -3,7 +3,6 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.keras import layers
 from matplotlib import pyplot as plt
-#import seaborn as sns
 pd.options.display.max_rows = 10
 print('imported modules')
 train_df = pd.read_csv('generated_data2.csv')

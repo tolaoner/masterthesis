@@ -24,7 +24,7 @@ for i in range(400):
         m_y.append(M[-1, 1])
         m_z.append(M[-1, 2])
     #print(m_x, '\n', m_y, '\n', m_z)
-    row_data=[t, m_x[0], m_y[0], m_z[0], b_z[0], coef_list[0]]
+    row_data=[t, m_x[0], m_y[0], m_z[0], b_z[0], coef_list]
     list_data.append(row_data)
     m_x=[]
     m_y=[]
