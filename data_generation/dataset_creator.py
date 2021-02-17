@@ -1,3 +1,4 @@
+from pathlib import Path
 from bloch_solver import solve_bloch
 from pulse_generator import generate_pulse
 import numpy as np
@@ -8,7 +9,7 @@ from scipy.integrate import odeint
 #start_time = time.time()  # record start time
 voxel_count = 2
 M_ic = [0, 0, 1]  # initial conditions
-features = ['Time', 'Mx_f', 'My_f', 'Mz_f', 'B_z', 'Coeff of Exc. Pulse']
+features = ['Time', 'Mx_f', 'My_f', 'Mz_f', 'B_z', 'a1', 'a2', "b1", "b2", "f1", 'f2']
 list_data = []
 m_x = []
 m_y = []
@@ -24,19 +25,22 @@ for i in range(400):
         m_y.append(M[-1, 1])
         m_z.append(M[-1, 2])
     #print(m_x, '\n', m_y, '\n', m_z)
-    row_data=[t, m_x[0], m_y[0], m_z[0], b_z[0], coef_list]
+    row_data=[t, m_x[0], m_y[0], m_z[0], b_z[0], coef_list[0], coef_list[1], coef_list[2], coef_list[3], coef_list[4], coef_list[5]]
     list_data.append(row_data)
     m_x=[]
     m_y=[]
     m_z=[]
 frame_data = pd.DataFrame(list_data, columns=features)
-with open('generated_data2.csv', 'a') as f:
+base_path = Path(__file__).parent.parent
+file_path = (base_path / "basic_ml_trial/first_trial/generated_data3.csv").resolve()
+with open(file_path, 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
 
 #returned_data = pd.read_csv('generated_data.csv') # read data from csv
 #print(returned_data.to_string()) # show data
 #print('Elapsed time = ', time.time()-start_time) # show elapsed time
 # plot magnetisation vs time
+
 '''plt.plot(t_span1, M[:, 0], 'b-', linewidth=2, label='M_x')
 plt.plot(t_span1, M[:, 1], 'r-', linewidth=2, label='M_y')
 plt.plot(t_span1, M[:, 2], 'g-', linewidth=2, label='M_z')
