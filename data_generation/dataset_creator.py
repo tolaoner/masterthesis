@@ -14,11 +14,11 @@ list_data = []
 m_x = []
 m_y = []
 m_z = []
-for i in range(10): # data count
+for i in range(50): # data count
     b_z = np.random.randint(-20, 21, size=(1))
     t = np.random.randint(1, 16) / 1000
     t_span = np.linspace(0, t, 150)
-    b_x, b_y = generate_pulse() # add coeff list for time varying exc.-- coeff list is the coefficients of excitation pulse (a1, a2, b1, b2, f1, f2)
+    b_x, b_y = generate_pulse(t) # add coeff list for time varying exc.-- coeff list is the coefficients of excitation pulse (a1, a2, b1, b2, f1, f2)
     for i in range(voxel_count):
         M = solve_bloch(t_span, M_ic, b_x, b_y, b_z[i])
         m_x.append(M[-1, 0])
@@ -36,8 +36,8 @@ file_path = (base_path / "basic_ml_trial/first_trial/const_exc_data.csv").resolv
 with open(file_path, 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
 
-#returned_data = pd.read_csv('generated_data.csv') # read data from csv
-#print(returned_data.to_string()) # show data
+returned_data = pd.read_csv(file_path) # read data from csv
+print(returned_data.to_string()) # show data
 #print('Elapsed time = ', time.time()-start_time) # show elapsed time
 # plot magnetisation vs time
 
