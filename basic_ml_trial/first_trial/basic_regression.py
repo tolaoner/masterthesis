@@ -79,7 +79,8 @@ def train_model(model, dataset, iterations, batch_size, label_name):
 epochs, mse = train_model(my_model, train_df, 50, 5, "Coeff of Exc. Pulse")
 plot_the_loss_curve(epochs, mse)
 print('finish')'''
-my_model = create_deep_model(0.1, my_feature_layer)
+my_model = create_deep_model(0.2, my_feature_layer)
 epochs, mse = train_model(my_model, train_df, 500, 50, "B_x")
 plot_the_loss_curve(epochs, mse)
+my_model.save('first_model')
 print('finish')
