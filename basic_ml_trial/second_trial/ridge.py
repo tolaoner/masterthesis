@@ -11,8 +11,8 @@ df_data = pd.read_csv(data_path)
 train = df_data.sample(frac=0.9, random_state=200)
 test = df_data.drop(train.index)
 # reset the indexes
-train_data = train.reset_index()
-test_data = test.reset_index()
+train_data = train.reset_index(drop=True)
+test_data = test.reset_index(drop=True)
 # separate label and features for train data
 train_label = train_data['B_x']
 train_features = train_data.drop(['B_x'], axis='columns')
