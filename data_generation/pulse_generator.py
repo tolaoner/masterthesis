@@ -11,7 +11,7 @@ def generate_pulse(time):
     '''above code is for time-varying excitation'''
     limit_value = math.pi/(2*time)
     b_x = np.random.uniform(-limit_value, limit_value)#lambda t: a1*np.cos(f1*t)+a2*np.cos(f2*t)
-    b_y = 0 #np.random.randint(-1000,1000) #lambda t: b1*np.sin(f1*t)+b2*np.sin(f2*t)
+    b_y = # 0 #np.random.randint(-1000,1000) #lambda t: b1*np.sin(f1*t)+b2*np.sin(f2*t)
     return b_x, b_y #coef_list
 '''t_span = np.linspace(0, 10, 160)
 b_x, b_y = generate_pulse()
