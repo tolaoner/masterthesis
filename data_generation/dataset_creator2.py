@@ -8,18 +8,18 @@ import pandas as pd
 from scipy.integrate import odeint
 
 # start_time = time.time()  # record start time
-voxel_count = 1
-features = ['Time', 'Mx_IC', 'My_IC', 'Mz_IC', 'Mx_f', 'My_f', 'Mz_f', 'B_z', 'B_x', 'B_y']
+voxel_count = 2
+features = ['Time', 'Mx_IC_1', 'My_IC_1', 'Mz_IC_1', 'Mx_f_1', 'My_f_1', 'Mz_f_1', 'Mx_IC_2', 'My_IC_2', 'Mz_IC_2',
+            'Mx_f_2', 'My_f_2', 'Mz_f_2', 'B_z', 'B_x', 'B_y']
 # for time varying add---, 'a1', 'a2', "b1", "b2", "f1", 'f2']
 list_data = []
-'''m_x = []
+m_x = []
 m_y = []
-m_z = []'''
-for i in range(20000): # data count
-    mx_ic = 0.2 * np.random.uniform()
-    my_ic = 0.2 * np.random.uniform()
-    mz_ic = math.sqrt(1 - mx_ic ** 2 - my_ic ** 2)
-    M_ic = [mx_ic, my_ic, mz_ic]  # initial conditions
+m_z = []
+mx_ic = []
+my_ic = []
+mz_ic = []
+for i in range(10000):  # data count
     b_z = np.random.uniform(0, 10)
     b_x = np.random.uniform(0, 100)
     b_y = np.random.uniform(0, 100)
@@ -28,20 +28,27 @@ for i in range(20000): # data count
     # b_x, b_y = generate_pulse(t)
     # add coeff list for time varying exc.-- coeff list is the coefficients of excitation pulse (a1, a2, b1, b2, f1, f2)
     for k in range(voxel_count):
+        mx_ic.append(0.2 * np.random.uniform())
+        my_ic.append(0.2 * np.random.uniform())
+        mz_ic.append(math.sqrt(1 - mx_ic[k] ** 2 - my_ic[k] ** 2))
+        M_ic = [mx_ic[k], my_ic[k], mz_ic[k]]  # initial conditions
         M = solve_bloch(t_span, M_ic, b_x, b_y, b_z)
-        m_x = M[-1, 0]
-        m_y = M[-1, 1]
-        m_z = M[-1, 2]
+        m_x.append(M[-1, 0])
+        m_y.append(M[-1, 1])
+        m_z.append(M[-1, 2])
     # print(m_x, '\n', m_y, '\n', m_z)
-    row_data = [t, mx_ic, my_ic, mz_ic, m_x, m_y, m_z, b_z, b_x, b_y]
+    row_data = [t, mx_ic[0], my_ic[0], mz_ic[0], m_x[0], m_y[0], m_z[0], mx_ic[1],my_ic[1], mz_ic[1], m_x[1], m_y[1], m_z[1], b_z, b_x, b_y]
     # add (, coef_list[0], coef_list[1], coef_list[2], coef_list[3], coef_list[4], coef_list[5]]) for time varying
     list_data.append(row_data)
     m_x = []
     m_y = []
     m_z = []
+    mx_ic = []
+    my_ic = []
+    mz_ic = []
 frame_data = pd.DataFrame(list_data, columns=features)
 base_path = Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets/2const_exc_data.csv").resolve()
+file_path = (base_path / "datasets/3const_exc_data.csv").resolve()
 with open(file_path, 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
 
