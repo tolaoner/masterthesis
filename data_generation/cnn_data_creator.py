@@ -11,11 +11,13 @@ from scipy.integrate import odeint
 voxel_count = 5
 cnn_features = ['Mx_IC', 'My_IC', 'Mz_IC', 'Mx_f', 'My_f', 'Mz_f', 'B_z']
 ff_features = ['Time', 'B_x', 'B_y']
+datapoint = []
 cnn_data = []
 ff_data = []
 m_x = []
 m_y = []
 m_z = []
+
 for i in range(10000):  # data count
     b_x = np.random.uniform(0, 100)
     b_y = np.random.uniform(0, 100)
@@ -33,23 +35,30 @@ for i in range(10000):  # data count
         m_x = M[-1, 0]
         m_y = M[-1, 1]
         m_z = M[-1, 2]
-        cnn_row = [mx_ic, my_ic, mz_ic, m_x, m_y, m_z, b_z]
-        cnn_data.append(cnn_row)
+        voxel = [mx_ic, my_ic, mz_ic, m_x, m_y, m_z, b_z]
+        datapoint.append(voxel)
+    cnn_data.append(datapoint)
+    datapoint = []
     ff_row = [t, b_x, b_y]
     ff_data.append(ff_row)
-#print(cnn_data)
+cnn_array = np.array(cnn_data)
+# print(cnn_array)
+
+# print(cnn_data)
 frame_ff = pd.DataFrame(ff_data, columns=ff_features)
 
-frame_cnn = pd.DataFrame(cnn_data, columns=cnn_features)
+# array_cnn = np.array(cnn_data)
 
 base_path = Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets/cnn_dataset.csv").resolve()
-with open(file_path, 'a') as f:
-    frame_cnn.to_csv(f, mode='a', index=False, header=not f.tell())
+
+file_path = (base_path / "datasets/cnn_array").resolve()
+np.save(file_path, cnn_array)
 
 file_path_2 = (base_path / "datasets/ff_dataset.csv").resolve()
 with open(file_path_2, 'a') as f:
     frame_ff.to_csv(f, mode='a', index=False, header=not f.tell())
+print('files are saved')
+
 
 # returned_data = pd.read_csv(file_path) # read data from csv
 # print(returned_data.to_string()) # show data
