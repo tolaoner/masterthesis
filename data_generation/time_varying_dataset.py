@@ -20,7 +20,7 @@ mx_ic = []
 my_ic = []
 mz_ic = []
 b_z = []
-for i in range(100000):  # data count
+for i in range(90000):  # data count
     # b_x = np.random.uniform(0, 100)
     # b_y = np.random.uniform(0, 100)
     t = np.random.randint(1, 40) / 1000
@@ -29,7 +29,7 @@ for i in range(100000):  # data count
     b_x, b_y, coeff_list = generate_pulse() # add coeff list for time varying exc.
     # -- coeff list is the coefficients of excitation pulse (a1, a2, b1, b2, f1, f2)
     for k in range(voxel_count):
-        b_z.append(np.random.uniform(0, 10))
+        b_z.append(np.random.uniform(-20, 21))
         mx_ic.append(0.2 * np.random.uniform())
         my_ic.append(0.2 * np.random.uniform())
         mz_ic.append(math.sqrt(1 - mx_ic[k] ** 2 - my_ic[k] ** 2))
@@ -50,7 +50,7 @@ for i in range(100000):  # data count
     mz_ic = []
 frame_data = pd.DataFrame(list_data, columns=features)
 base_path = Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets/time_varying.csv").resolve()
+file_path = (base_path / "datasets/2voxel_time_varying.csv").resolve()
 with open(file_path, 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
 
