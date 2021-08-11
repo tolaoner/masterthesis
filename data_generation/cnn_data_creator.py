@@ -8,7 +8,7 @@ import pandas as pd
 from scipy.integrate import odeint
 
 # start_time = time.time()  # record start time
-voxel_count = 5
+voxel_count = 100
 cnn_features = ['Mx_IC', 'My_IC', 'Mz_IC', 'Mx_f', 'My_f', 'Mz_f', 'B_z']
 ff_features = ['Time', 'B_x', 'B_y']
 datapoint = []
@@ -18,7 +18,7 @@ m_x = []
 m_y = []
 m_z = []
 
-for i in range(10000):  # data count
+for i in range(20000):  # data count
     b_x = np.random.uniform(0, 100)
     b_y = np.random.uniform(0, 100)
     t = np.random.randint(1, 40) / 1000
@@ -52,10 +52,10 @@ frame_ff = pd.DataFrame(ff_data, columns=ff_features)
 base_path = Path(__file__).parent.parent.parent
 
 file_path = (base_path / "datasets/cnn_array").resolve()
-np.save(file_path, cnn_array)
+np.save('cnn_data', cnn_array)
 
 file_path_2 = (base_path / "datasets/ff_dataset.csv").resolve()
-with open(file_path_2, 'a') as f:
+with open('ff_dataset.csv', 'a') as f:
     frame_ff.to_csv(f, mode='a', index=False, header=not f.tell())
 print('files are saved')
 
