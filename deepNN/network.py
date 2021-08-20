@@ -83,9 +83,9 @@ def train_model(model, feature_set, label_set, iterations, batch_size, label_nam
 
 
 my_model = create_deep_model(0.001)
-my_model.summary()
-keras.utils.plot_model(my_model, to_file="network_structure_trials/matlab_set/matlab_set.png", show_shapes=True)
+# my_model.summary()
+# keras.utils.plot_model(my_model, to_file="network_structure_trials/matlab_set/matlab_set.png", show_shapes=True)
 epochs, mse = train_model(my_model, feature_data, label_data, 100, 40, ["B_x", "B_y"])
-my_model.save('trained_matlab_set')
+# my_model.save('trained_matlab_set')
 plot_the_loss_curve(epochs, mse)
 print('finish')

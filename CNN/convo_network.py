@@ -19,15 +19,14 @@ base_path = Path(__file__).parent.parent.parent
 file_path = (base_path / "datasets/cnn_array.npy").resolve()
 file_path2 = (base_path / "datasets/ff_dataset.csv").resolve()
 
-cnn_data = np.load('cnn_data.npy')
-cnn_data = cnn_data.reshape(20000, 10, 10, 7)
+cnn_data = np.load(file_path)
+# cnn_data = cnn_data.reshape(10000, 5, 7, 1)
 
-label_data = pd.read_csv('ff_dataset.csv')
-label_data = np.array(label_data)
-# time_data = label_data['Time'].copy()
-# time_data = time_data.to_numpy()
-# label_data = label_data.drop(['Time'], axis=1)
-# print(time_data)
+label_data = pd.read_csv(file_path2)
+time_data = label_data['Time'].copy()
+time_data = time_data.to_numpy()
+label_data = label_data.drop(['Time'], axis=1)
+print(time_data)
 
 # print(cnn_data)
 
