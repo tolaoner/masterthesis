@@ -9,7 +9,7 @@ print('imported modules')
 
 
 base_path = pb.Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets" / "3const_exc_data.csv").resolve()
+file_path = (base_path / "datasets" / "norm_2const_exc.csv").resolve()
 train_data = pd.read_csv(file_path)
 label_data = train_data[['B_x', 'B_y']].copy()
 feature_data = train_data.drop(['B_x', 'B_y'], axis=1)
@@ -52,7 +52,7 @@ def create_deep_model(learning_rate):
     return model
 
 
-def train_model(model, feature_set, label_set, iterations, batch_size, label_name):
+def train_model(model, feature_set, label_set, iterations, batch_size):
     """feed a dataset into the model in order to train it."""
     # split the data set into features and label
     label = label_set
@@ -67,8 +67,8 @@ def train_model(model, feature_set, label_set, iterations, batch_size, label_nam
 
 my_model = create_deep_model(0.002)
 my_model.summary()
-keras.utils.plot_model(my_model, to_file="network_structure_trials/2voxel_matlab_set/2voxel600k.png", show_shapes=True)
-epochs, mse = train_model(my_model, feature_data, label_data, 500, 40, ["B_x", "B_y"])
-my_model.save('models/600k_matlab_set')
+# keras.utils.plot_model(my_model, to_file="network_structure_trials/2voxel_matlab_set/2voxel600k.png", show_shapes=True)
+epochs, mse = train_model(my_model, feature_data, label_data, 100, 40)
+my_model.save('models/600k_norm_matlab_set')
 plot_the_loss_curve(epochs, mse)
 print('finish')
