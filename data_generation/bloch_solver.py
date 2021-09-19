@@ -18,9 +18,10 @@ def solve_bloch(t_span, M_ic, b_x, b_y, b_z):
     p = [gamma, b_x, b_y, b_z, t1, t2, m_0]  # parameter list
     def diffeq_model(M, t, p):
         m_x, m_y, m_z = M
-        dM = [gamma * (m_y * b_z - m_z * b_y(t)) - m_x / t2,
-              gamma * (m_z * b_x(t) - m_x * b_z) - m_y / t2,
-              gamma * (m_x * b_y(t) - m_y * b_x(t)) - (m_z - m_0) / t1]
+        t = int(t)
+        dM = [gamma * (m_y * b_z - m_z * b_y[t]) - m_x / t2,
+              gamma * (m_z * b_x[t] - m_x * b_z) - m_y / t2,
+              gamma * (m_x * b_y[t] - m_y * b_x[t]) - (m_z - m_0) / t1]
         return dM
     # solve the diffeq
     m_f = odeint(diffeq_model, M_ic, t_span, args=(p,))
