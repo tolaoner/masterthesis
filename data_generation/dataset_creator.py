@@ -17,9 +17,9 @@ features = ['Time', 'Mx_IC', 'My_IC', 'Mz_IC', 'Mx_f', 'My_f', 'Mz_f', 'B_z', 'B
 
 list_data = []
 
-for i in range(620000):# data count
+for i in range(600000):  # data count
     b_x = np.random.uniform(0, 100)
-    b_y = np.random.uniform(0, 100)
+    b_y = 0  # np.random.uniform(0, 100)
     t = np.random.randint(1, 40) / 1000
     t_span = np.linspace(0, t, 150)
     # b_x, b_y = generate_pulse(t)
@@ -41,7 +41,7 @@ for i in range(620000):# data count
 frame_data = pd.DataFrame(list_data, columns=features)
 
 base_path = Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets/1const_exc_data.csv").resolve()
+file_path = (base_path / "datasets/const_1vox_by0.csv").resolve()
 
 with open(file_path, 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())

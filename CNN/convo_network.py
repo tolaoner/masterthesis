@@ -1,14 +1,13 @@
 import tensorflow as tf
-import keras
-from keras.optimizers import adam
-from keras.models import Sequential
-from keras.models import Model
-from keras.layers import Conv2D
-from keras.layers import Activation
-from keras.layers import Dense
-from keras.layers import Flatten
-from keras.layers import Input
-from keras.layers.merge import concatenate
+from tensorflow import keras
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.metrics import RootMeanSquaredError
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import concatenate
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as pl
@@ -20,7 +19,7 @@ file_path = (base_path / "datasets/cnn_array.npy").resolve()
 file_path2 = (base_path / "datasets/ff_dataset.csv").resolve()
 
 cnn_data = np.load(file_path)
-# cnn_data = cnn_data.reshape(10000, 5, 7, 1)
+cnn_data = cnn_data.reshape(10000, 5, 7, 1)
 
 label_data = pd.read_csv(file_path2)
 time_data = label_data['Time'].copy()
@@ -30,32 +29,34 @@ print(time_data)
 
 # print(cnn_data)
 
-visible = Input(shape=(10, 10, 7))
-x = Conv2D(32, (3, 3))(visible)
+visible = Input(shape=(5, 7, 1))
+x = Conv2D(32, (2, 2))(visible)
 x = Activation("relu")(x)
-x = Conv2D(64, (3, 3))(x)
+x = Conv2D(64, (2, 2))(x)
 x = Activation("relu")(x)
-x = Conv2D(32, (3, 3))(x)
+x = Conv2D(32, (2, 2))(x)
 x = Activation("relu")(x)
 x = Flatten()(x)
-x = Dense(64)(x)
-x = Activation("relu")(x)
+'''x = Dense(64)(x)
+x = Activation("relu")(x)'''
 x = Dense(32)(x)
 x = Activation("relu")(x)
-
-'''visible2 = Input(shape=(1))
+x = Dense(16, activation="relu")(x)
+visible2 = Input(shape=(1))
 z = Dense(10, activation='relu')(visible2)
 z = Dense(16, activation='relu')(z)
-combined = concatenate([x, z])'''
-# x = Dense(16, activation="relu")(x)
-x = Dense(10, activation="relu")(x)
-output = Dense(3, activation="relu")(x)
+combined = concatenate([x, z])
+y = Dense(20, activation="relu")(combined)
+y = Dense(10, activation="relu")(y)
+output = Dense(2, activation="relu")(y)
 
-model = Model(inputs=visible, outputs=output)
-opt = adam(lr=0.002)
+model = Model(inputs=[visible, visible2], outputs=output)
+opt = tf.keras.optimizers.Adam(lr=0.002)
 model.compile(optimizer=opt, loss='mean_squared_error',
-              metrics=[keras.metrics.RootMeanSquaredError()])
-history = model.fit(cnn_data, label_data, epochs=150)
+              metrics=[RootMeanSquaredError()])
+history = model.fit([cnn_data, time_data], label_data, epochs=150)
+model.save('models/const_multivox_cnn')
+
 
 '''learning_rate = 0.001
 

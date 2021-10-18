@@ -37,7 +37,6 @@ for i in range(60000):  # data count
         m_z.append(M[-1, 2])
     # print(m_x, '\n', m_y, '\n', m_z)
     row_data = [t, mx_ic[0], my_ic[0], mz_ic[0], m_x[0], m_y[0], m_z[0], mx_ic[1],my_ic[1], mz_ic[1], m_x[1], m_y[1], m_z[1], b_z, b_x, b_y]
-    # add (, coef_list[0], coef_list[1], coef_list[2], coef_list[3], coef_list[4], coef_list[5]]) for time varying
     list_data.append(row_data)
     m_x = []
     m_y = []

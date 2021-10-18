@@ -17,7 +17,6 @@ def solve_bloch(t_span, M_ic, b_x, b_y, b_z):
     t1 = 1.6  # longitudinal relaxation
     t2 = 0.5  # transverse relaxation
     m_0 = 1
-    # M_ic = [0, 0, 1]  # initial conditions
     p = [gamma, b_x, b_y, b_z, t1, t2, m_0]  # parameter list
     def diffeq_model(M, t, p):
         m_x, m_y, m_z = M
