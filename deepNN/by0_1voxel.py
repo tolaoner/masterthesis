@@ -69,8 +69,8 @@ def train_model(model, feature_set, label_set, iterations, batch_size):
 
 my_model = create_deep_model(0.001)
 # my_model.summary()
-keras.utils.plot_model(my_model, to_file="network_structure_trials/by0.pdf", show_shapes=True)
+#keras.utils.plot_model(my_model, to_file="network_structure_trials/by0.pdf", show_shapes=True)
 epochs, mse = train_model(my_model, feature_data, label_data, 100, 40)
-my_model.save('models/600k_norm_1voxel_by0')
+my_model.save('models/600k_1voxel_by0')
 plot_the_loss_curve(epochs, mse)
 print('finish')

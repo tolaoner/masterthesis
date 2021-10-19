@@ -1,6 +1,6 @@
 from pathlib import Path
 from bloch_solver_ti import solve_bloch
-from pulse_generator import generate_pulse
+#from pulse_generator import generate_pulse
 import numpy as np
 import math
 import time
@@ -16,7 +16,7 @@ features = ['Time', 'Mx_IC', 'My_IC', 'Mz_IC', 'Mx_f', 'My_f', 'Mz_f', 'B_z', 'B
 
 list_data = []
 
-for i in range(600000):  # data count
+for i in range(6000):  # data count
     b_x = np.random.uniform(0, 100)
     b_y = 0  # np.random.uniform(0, 100)
     t = np.random.randint(1, 40) / 1000
@@ -42,7 +42,7 @@ for i in range(600000):  # data count
 frame_data = pd.DataFrame(list_data, columns=features)
 
 base_path = Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets/const_1vox_by0.csv").resolve()
+file_path = (base_path / "datasets/test_by0.csv").resolve()
 
 with open(file_path, 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
