@@ -20,7 +20,7 @@ mx_ic = []
 my_ic = []
 mz_ic = []
 b_z = []
-for i in range(90000):  # data count
+for i in range(1000):  # data count
     # b_x = np.random.uniform(0, 100)
     # b_y = np.random.uniform(0, 100)
     t = np.random.randint(1, 40) / 1000
@@ -50,7 +50,7 @@ for i in range(90000):  # data count
     mz_ic = []
 frame_data = pd.DataFrame(list_data, columns=features)
 base_path = Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets/2voxel_time_varying.csv").resolve()
+file_path = (base_path / "datasets/2vox_tv_test.csv").resolve()
 with open(file_path, 'a') as f:
     frame_data.to_csv(f, mode='a', index=False, header=not f.tell())
 

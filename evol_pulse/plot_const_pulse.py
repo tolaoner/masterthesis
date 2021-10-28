@@ -31,7 +31,7 @@ def plot_const_evol_by0(true_exc_data, predicted_data):
     #plt.tight_layout()
     plt.show()
 def plot_const_evol(true_exc_data, predicted_data):
-    true_exc_pulse = true_exc_data[['Time', 'B_z', 'B_x', 'B_y']].copy()
+    true_exc_pulse = true_exc_data[['Time', 'B_x', 'B_y']].copy()
     #plt.figure()
     #plt.figure(1)
     plt.subplot(211)

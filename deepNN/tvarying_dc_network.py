@@ -66,10 +66,10 @@ def train_model(model, feature_set, label_set, iterations, batch_size):
     hist = pd.DataFrame(history.history)
     rmse = hist["loss"]
     return epochs, rmse
-my_model = create_deep_model(0.01)
+my_model = create_deep_model(1)
 # my_model.summary()
-# keras.utils.plot_model(my_model, to_file="network_structure_trials/2voxel_matlab_set/2voxel600k.png", show_shapes=True)
-epochs, mse = train_model(my_model, feature_data, label_data, 100, 32)
-# my_model.save('models/600k_matlab_set')
+#keras.utils.plot_model(my_model, to_file="network_structure_trials/dc_timevarying.png", show_shapes=True)
+epochs, mse = train_model(my_model, feature_data, label_data, 10, 32)
+my_model.save('models/dc_timevarying2')
 plot_the_loss_curve(epochs, mse)
 print('finish')

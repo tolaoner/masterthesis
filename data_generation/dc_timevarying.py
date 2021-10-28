@@ -22,7 +22,7 @@ features = ['Time', 'Mx_IC', 'My_IC', 'Mz_IC', 'Mx_f', 'My_f', 'Mz_f', 'B_z', 'B
 
 list_data = []
 
-for i in range(20000):# data count
+for i in range(560000):# data count
     #t = np.random.randint(1, 40) / 1000
     t = 0.001
     t_span = np.linspace(0, 0.001, 21)  # .astype(int)
