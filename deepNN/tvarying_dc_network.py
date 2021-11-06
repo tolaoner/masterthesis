@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
@@ -13,7 +14,8 @@ file_path = (base_path / "datasets" / "dc_timevarying.csv").resolve()
 train_data = pd.read_csv(file_path)
 label_data = train_data.iloc[:, 8:50].copy()
 feature_data = train_data.iloc[:, 0:8].copy()
-
+feature_data_np = np.array(feature_data)
+label_data_np = np.array(label_data)
 
 def plot_the_loss_curve(iteration, loss):
     """plot loss vs iteration curve"""
@@ -66,10 +68,10 @@ def train_model(model, feature_set, label_set, iterations, batch_size):
     hist = pd.DataFrame(history.history)
     rmse = hist["loss"]
     return epochs, rmse
-my_model = create_deep_model(1)
+my_model = create_deep_model(0.01)
 # my_model.summary()
 #keras.utils.plot_model(my_model, to_file="network_structure_trials/dc_timevarying.png", show_shapes=True)
-epochs, mse = train_model(my_model, feature_data, label_data, 10, 32)
-my_model.save('models/dc_timevarying2')
+epochs, mse = train_model(my_model, feature_data_np, label_data_np, 35, 40)
+my_model.save('models/dc_timevarying3')
 plot_the_loss_curve(epochs, mse)
 print('finish')

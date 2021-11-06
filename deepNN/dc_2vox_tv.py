@@ -4,16 +4,18 @@ from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from matplotlib import pyplot as plt
 import pathlib as pb
+import numpy as np
 pd.options.display.max_rows = 10
 print('imported modules')
 
 
 base_path = pb.Path(__file__).parent.parent.parent
-file_path = (base_path / "datasets" / "norm_2const_exc.csv").resolve()
+file_path = (base_path / "datasets" / "dc_2vox_tv.csv").resolve()
 train_data = pd.read_csv(file_path)
-label_data = train_data[['B_x', 'B_y']].copy()
-feature_data = train_data.drop(['B_x', 'B_y'], axis=1)
-
+label_data = train_data.iloc[:, 14:56].copy()
+feature_data = train_data.iloc[:, 0:14].copy()
+feature_data_np = np.array(feature_data)
+label_data_np = np.array(label_data)
 
 def plot_the_loss_curve(iteration, loss):
     """plot loss vs iteration curve"""
@@ -28,23 +30,26 @@ def plot_the_loss_curve(iteration, loss):
 
 def create_deep_model(learning_rate):
     model = Sequential()
-    model.add(tf.keras.layers.Dense(units=10,
+    model.add(tf.keras.layers.Dense(units=14,
                                     input_shape=(14,),
                                     activation="relu",
                                     name='hidden1'))
-    '''model.add(tf.keras.layers.Dense(units=20,
+    model.add(tf.keras.layers.Dense(units=20,
                                     activation="relu",
-                                   name="hidden2"))'''
-    model.add(tf.keras.layers.Dense(units=10,
+                                   name="hidden2"))
+    model.add(tf.keras.layers.Dense(units=40,
                                     activation="relu",
                                     name="hidden3"))
     '''model.add(tf.keras.layers.Dense(units=20,
                                     activation="relu",
                                     name="hidden4"))'''
-    model.add(tf.keras.layers.Dense(units=5,
+    model.add(tf.keras.layers.Dense(units=50,
                                     activation="relu",
                                     name="hidden5"))
-    model.add(tf.keras.layers.Dense(units=2,
+    '''model.add(tf.keras.layers.Dense(units=10,
+                                    activation="relu",
+                                    name="hidden6"))'''
+    model.add(tf.keras.layers.Dense(units=42,
                                     name="output"))
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
                   loss="mean_squared_error",
@@ -63,12 +68,10 @@ def train_model(model, feature_set, label_set, iterations, batch_size):
     hist = pd.DataFrame(history.history)
     rmse = hist["loss"]
     return epochs, rmse
-
-
-my_model = create_deep_model(0.002)
-my_model.summary()
-keras.utils.plot_model(my_model, to_file="network_structure_trials/2voxel_matlab_set/2voxel600k.png", show_shapes=True)
-epochs, mse = train_model(my_model, feature_data, label_data, 100, 40)
-my_model.save('models/600k_norm_matlab_set')
+my_model = create_deep_model(0.001)
+# my_model.summary()
+keras.utils.plot_model(my_model, to_file="network_structure_trials/dc_2vox_tv.png", show_shapes=True)
+epochs, mse = train_model(my_model, feature_data_np, label_data_np, 150, 40)
+my_model.save('models/dc_2vox_tv')
 plot_the_loss_curve(epochs, mse)
 print('finish')
